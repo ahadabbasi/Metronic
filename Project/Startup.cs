@@ -1,6 +1,7 @@
 ﻿using Ahada.Metronic.Contracts;
 using Ahada.Metronic.Contracts.Assets;
 using Ahada.Metronic.Models;
+using Ahada.Metronic.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,11 +15,13 @@ public class Startup
         services.AddScoped<IKeenTheme<IKeenAssetFontsScriptsStyles>>(_ =>
             new KeenTheme(configuration.GetSection(nameof(Metronic)))
         );
+        
+        services.AddScoped<IKeenHtmlHelper, KeenHtmlHelper>();
 
         /*
         services.AddScoped<IKeenBootstrap, KeenBootstrap>();
 
-        services.AddScoped<IHtmlGenerator, HtmlGenerator>();
+        
 
         services.AddHttpContextAccessor();
         */

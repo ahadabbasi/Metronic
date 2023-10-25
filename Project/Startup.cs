@@ -17,9 +17,11 @@ public class Startup
         );
         
         services.AddScoped<IKeenHtmlHelper, KeenHtmlHelper>();
+        
+        services.AddScoped<IKeenBootstrapper, KeenBootstrapper>();
 
         /*
-        services.AddScoped<IKeenBootstrap, KeenBootstrap>();
+        
 
         
 

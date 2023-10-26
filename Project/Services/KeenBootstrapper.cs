@@ -1,4 +1,5 @@
 ﻿using Ahada.Metronic.Contracts;
+using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Assets;
 using Microsoft.AspNetCore.Hosting;
 

@@ -1,6 +1,6 @@
-﻿using Ahada.Metronic.Contracts;
+﻿using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Assets;
-using Ahada.Metronic.Models;
+using Ahada.Metronic.Models.Abstracts;
 using Ahada.Metronic.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

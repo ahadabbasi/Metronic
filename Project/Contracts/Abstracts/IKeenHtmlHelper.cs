@@ -1,6 +1,6 @@
 ﻿using Ahada.Metronic.Contracts.HtmlHelpers;
 
-namespace Ahada.Metronic.Contracts;
+namespace Ahada.Metronic.Contracts.Abstracts;
 
 public interface IKeenHtmlHelper
 {

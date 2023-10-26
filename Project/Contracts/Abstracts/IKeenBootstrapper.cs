@@ -1,4 +1,4 @@
-﻿namespace Ahada.Metronic.Contracts;
+﻿namespace Ahada.Metronic.Contracts.Abstracts;
 
 public interface IKeenBootstrapper
 {

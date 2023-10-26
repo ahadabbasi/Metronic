@@ -1,11 +1,10 @@
-﻿using Ahada.Metronic.Contracts;
-using Ahada.Metronic.Contracts.Abstracts;
+﻿using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Assets;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Ahada.Metronic.Services;
 
-public class KeenBootstrapper : IKeenBootstrapper
+internal class KeenBootstrapper : IKeenBootstrapper
 {
     private IKeenTheme<IKeenAssetFontsScriptsStyles> Theme { get; }
     

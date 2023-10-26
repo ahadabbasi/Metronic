@@ -4,7 +4,7 @@ using Ahada.Metronic.Contracts.HtmlHelpers;
 
 namespace Ahada.Metronic.Models.HtmlHelpers;
 
-public class KeenHtmlHelperId : IKeenHtmlHelperId
+internal class KeenHtmlHelperId : IKeenHtmlHelperId
 {
     private IList<string> Collection { get; }
 

@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ahada.Metronic;
 
-public class Startup
+internal class Startup
 {
     public IServiceCollection ConfigurationService(IServiceCollection services,
         IConfiguration configuration)

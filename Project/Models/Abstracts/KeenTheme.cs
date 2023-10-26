@@ -1,12 +1,11 @@
-﻿using Ahada.Metronic.Contracts;
-using Ahada.Metronic.Contracts.Abstracts;
+﻿using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Assets;
 using Ahada.Metronic.Models.Assets;
 using Microsoft.Extensions.Configuration;
 
 namespace Ahada.Metronic.Models.Abstracts;
 
-public class KeenTheme : IKeenTheme<IKeenAssetFontsScriptsStyles>
+internal class KeenTheme : IKeenTheme<IKeenAssetFontsScriptsStyles>
 {
     private IConfiguration Configuration { get; }
 

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ahada.Metronic.Models.Assets;
 
-public class KeenAssetFontsScriptsStyles : IKeenAssetFontsScriptsStyles
+internal class KeenAssetFontsScriptsStyles : IKeenAssetFontsScriptsStyles
 {
     private IConfiguration Configuration { get; }
 

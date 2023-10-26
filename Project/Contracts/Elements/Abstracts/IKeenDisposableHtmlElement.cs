@@ -1,8 +1,10 @@
-﻿namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿using System;
+
+namespace Ahada.Metronic.Contracts.Elements.Abstracts;
 
 public interface IKeenDisposableHtmlElement<TSelf, TDisposal> : IKeenHtmlElement<TSelf>
     where TSelf : IKeenHtmlElement<TSelf>
-    where TDisposal : IKeenHtmlElement<TDisposal>, new()
+    where TDisposal : IKeenHtmlBodyElement, new()
 {
-    IKeenHtmlElementBody<TDisposal> Body(Func<TDisposal, TDisposal>? func = null);
+    IDisposable Body(Action<TDisposal>? action = null);
 }

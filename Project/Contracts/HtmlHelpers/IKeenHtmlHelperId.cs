@@ -1,4 +1,6 @@
-﻿namespace Ahada.Metronic.Contracts.HtmlHelpers;
+﻿using System.Collections.Generic;
+
+namespace Ahada.Metronic.Contracts.HtmlHelpers;
 
 public interface IKeenHtmlHelperId : IEnumerable<string>
 {

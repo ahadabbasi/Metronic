@@ -1,4 +1,5 @@
-﻿using Ahada.Metronic.Contracts.Abstracts;
+﻿using System.Threading.Tasks;
+using Ahada.Metronic.Contracts.Abstracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,6 +17,8 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : Kee
     protected TDisposal Disposal { get; }
 
     public IHtmlHelper Html { get; }
+
+    public abstract TagBuilder Tag { get; }
 
     public KeenDisposableHtmlElement(IHtmlHelper html)
     {
@@ -44,17 +48,23 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : Kee
     }
 
 
-    public Task Initial()
+    public virtual async Task Initial()
     {
-        Disposal.Initial();
+        Tag.MergeAttributes(Attributes);
         
-        return Task.CompletedTask;
+        await using StringWriter writer = new StringWriter();
+        Tag.RenderStartTag().WriteTo(writer, HtmlEncoder.Default);
+        await Html.ViewContext.Writer.WriteAsync(writer.ToString());
+
+        await Disposal.Initial();
     }
 
-    public Task Terminate()
+    public virtual async Task Terminate()
     {
-        Disposal.Terminate();
-        
-        return Task.CompletedTask;
+        await Disposal.Terminate();
+
+        await using StringWriter writer = new StringWriter();
+        Tag.RenderEndTag().WriteTo(writer, HtmlEncoder.Default);
+        await Html.ViewContext.Writer.WriteAsync(writer.ToString());
     }
 }

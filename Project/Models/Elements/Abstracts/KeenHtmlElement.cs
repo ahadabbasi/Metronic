@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
-using Microsoft.AspNetCore.Html;
 
 namespace Ahada.Metronic.Models.Elements.Abstracts;
 
@@ -15,12 +14,8 @@ internal abstract class KeenHtmlElement<TSelf, TBase> : IKeenHtmlElement<TSelf>,
     protected string ClassName
         => "class";
 
-    protected IHtmlContent InnerHtml { get; set; }
-
     public KeenHtmlElement()
     {
-        InnerHtml = new HtmlString(string.Empty);
-        
         Attributes = new Dictionary<string, string>();
     }
 
@@ -32,13 +27,6 @@ internal abstract class KeenHtmlElement<TSelf, TBase> : IKeenHtmlElement<TSelf>,
         return Add(ClassName, string.Join(" ", classes));
     }
 
-    public TSelf InnerText(string text)
-    {
-        InnerHtml = new HtmlString(text);
-        
-        return (TBase)this;
-    }
-    
     public TSelf Add(string name, string value)
     {
         if (!Attributes.ContainsKey(name))

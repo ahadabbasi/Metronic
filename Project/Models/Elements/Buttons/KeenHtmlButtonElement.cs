@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ahada.Metronic.Models.Elements.Buttons;
 
-internal class KeenHtmlButtonElement : KeenHtmlElement<IKeenHtmlButtonElement, KeenHtmlButtonElement>,
+internal class KeenHtmlButtonElement : KeenHtmlInnerTextElement<IKeenHtmlButtonElement, KeenHtmlButtonElement>,
     IKeenHtmlButtonElement
 {
     protected KeenType KeenType { get; set; }

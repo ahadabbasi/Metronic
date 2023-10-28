@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Html;
 
 namespace Ahada.Metronic.Contracts.Elements.Buttons;
 
-public interface IKeenHtmlButtonElement : IKeenHtmlElement<IKeenHtmlButtonElement>, IHtmlContent
+public interface IKeenHtmlButtonElement : IKeenHtmlInnerTextElement<IKeenHtmlButtonElement>, IHtmlContent
 {
     IKeenHtmlButtonElement Styled(KeenType type);
     

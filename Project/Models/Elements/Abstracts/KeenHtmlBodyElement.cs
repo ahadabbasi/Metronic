@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ahada.Metronic.Models.Elements.Abstracts;
 
-internal abstract class KeenHtmlBodyElement : KeenHtmlElement<IKeenHtmlBodyElement, KeenHtmlBodyElement>, 
-    IKeenHtmlBodyElement, 
-    IKeenHtmlDisposableHtmlElement
+internal abstract class KeenHtmlBodyElement<TSelf, TBase> : KeenHtmlElement<TSelf, TBase>, IKeenHtmlDisposableHtmlElement
+    where TSelf : IKeenHtmlBodyElement<TSelf>
+    where TBase : KeenHtmlElement<TSelf, TBase>, TSelf, IKeenHtmlDisposableHtmlElement
 {
     public IHtmlHelper Html { get; }
     

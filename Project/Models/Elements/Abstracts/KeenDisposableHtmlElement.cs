@@ -8,13 +8,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ahada.Metronic.Models.Elements.Abstracts;
 
-internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : KeenHtmlElement<TSelf, TBase>,
+internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal, TBaseDisposal> :
+    KeenHtmlElement<TSelf, TBase>,
     IKeenDisposableHtmlElement<TSelf, TDisposal>, IKeenHtmlDisposableHtmlElement
     where TSelf : IKeenHtmlElement<TSelf>
-    where TDisposal : IKeenHtmlBodyElement, IKeenHtmlDisposableHtmlElement
+    where TDisposal : IKeenHtmlBodyElement<TDisposal>
     where TBase : KeenHtmlElement<TSelf, TBase>, TSelf
+    where TBaseDisposal : KeenHtmlBodyElement<TDisposal, TBaseDisposal>, TDisposal, IKeenHtmlDisposableHtmlElement
 {
-    protected TDisposal Disposal { get; }
+    protected TBaseDisposal Disposal { get; }
 
     public IHtmlHelper Html { get; }
 
@@ -24,7 +26,7 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : Kee
     {
         Html = html;
 
-        System.Reflection.ConstructorInfo? constructor = typeof(TDisposal)
+        System.Reflection.ConstructorInfo? constructor = typeof(TBaseDisposal)
             .GetConstructors()
             .Where(constructor => constructor.GetParameters().Length is 1)
             .FirstOrDefault(constructor =>
@@ -33,8 +35,8 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : Kee
 
         if (constructor is null)
             throw new Exception();
-        
-        Disposal = (TDisposal)constructor.Invoke(new object[] { html });
+
+        Disposal = (TBaseDisposal)constructor.Invoke(new object[] { html });
     }
 
     public IDisposable Body(Action<TDisposal>? action = null)
@@ -51,7 +53,7 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal> : Kee
     public virtual async Task Initial()
     {
         Tag.MergeAttributes(Attributes);
-        
+
         await using StringWriter writer = new StringWriter();
         Tag.RenderStartTag().WriteTo(writer, HtmlEncoder.Default);
         await Html.ViewContext.Writer.WriteAsync(writer.ToString());

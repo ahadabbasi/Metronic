@@ -39,21 +39,26 @@ internal abstract class KeenDisposableHtmlElement<TSelf, TBase, TDisposal, TBase
         Disposal = (TBaseDisposal)constructor.Invoke(new object[] { html });
     }
 
-    public IDisposable Body(Action<TDisposal>? action = null)
+    public async Task<IDisposable> Body(Action<TDisposal>? action = null)
     {
         if (action is not null)
         {
             action.Invoke(Disposal);
         }
 
+        await Initial();
+
         return new KeenHtmlElementBody(Terminate);
     }
-
+    
+    public abstract Task Build();
 
     public virtual async Task Initial()
     {
-        Tag.MergeAttributes(Attributes);
+        //Tag.MergeAttributes(Attributes);
 
+        await Build();
+        
         await using StringWriter writer = new StringWriter();
         Tag.RenderStartTag().WriteTo(writer, HtmlEncoder.Default);
         await Html.ViewContext.Writer.WriteAsync(writer.ToString());

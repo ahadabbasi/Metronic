@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Ahada.Metronic.Contracts.Elements.Abstracts;
 
@@ -6,5 +7,5 @@ public interface IKeenDisposableHtmlElement<TSelf, TDisposal> : IKeenHtmlElement
     where TSelf : IKeenHtmlElement<TSelf>
     where TDisposal : IKeenHtmlBodyElement<TDisposal>
 {
-    IDisposable Body(Action<TDisposal>? action = null);
+    Task<IDisposable> Body(Action<TDisposal>? action = null);
 }

@@ -7,6 +7,7 @@ public interface IKeenHtmlDisposableHtmlElement
 {
     IHtmlHelper Html { get; }
     TagBuilder Tag { get; }
+    Task Build();
     Task Initial();
     Task Terminate();
 }

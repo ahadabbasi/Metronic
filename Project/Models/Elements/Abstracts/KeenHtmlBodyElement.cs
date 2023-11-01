@@ -19,9 +19,11 @@ internal abstract class KeenHtmlBodyElement<TSelf, TBase> : KeenHtmlElement<TSel
         Html = html;
     }
 
+    public abstract Task Build();
+
     public virtual async Task Initial()
     {
-        Tag.MergeAttributes(Attributes);
+        await Build();
         
         await using StringWriter writer = new StringWriter();
         Tag.RenderStartTag().WriteTo(writer, HtmlEncoder.Default);

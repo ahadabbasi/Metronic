@@ -5,24 +5,38 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ahada.Metronic.Models.Abstracts;
 
+internal record KeenThemeBind
+{
+    public string Path { get; set; } = string.Empty;
+
+    public string Version { get; set; } = string.Empty;
+
+    public string Theme { get; set; } = string.Empty;
+}
+
 internal class KeenTheme : IKeenTheme<IKeenAssetFontsScriptsStyles>
 {
     private IConfiguration Configuration { get; }
 
+    private KeenThemeBind Bind { get; }
+
+
     public KeenTheme(IConfiguration configuration)
     {
         Configuration = configuration;
+        KeenThemeBind? bind = Configuration.Get<KeenThemeBind>();
+        Bind = bind ?? new KeenThemeBind();
     }
 
-    public string Directory 
-        => Configuration.GetSection(nameof(Directory)).ToString() ?? string.Empty;
-    
-    public string Version 
-        => Configuration.GetSection(nameof(Version)).ToString() ?? string.Empty;
-    
-    public string ThemeName
-        => Configuration.GetSection(nameof(ThemeName)).ToString() ?? string.Empty;
-    
-    public IKeenAssetFontsScriptsStyles Assets 
-        => new KeenAssetFontsScriptsStyles(Configuration.GetSection(nameof(Directory)));
+    public string Path
+        => Bind.Path;
+
+    public string Version
+        => Bind.Version;
+
+    public string Theme
+        => Bind.Theme;
+
+    public IKeenAssetFontsScriptsStyles Assets
+        => new KeenAssetFontsScriptsStyles(Configuration.GetSection(nameof(Assets)));
 }

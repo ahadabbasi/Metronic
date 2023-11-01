@@ -4,27 +4,32 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ahada.Metronic.Models.Assets;
 
+internal record KeenAssetsBind
+{
+    public string[] Scripts { get; set; } = { };
+    public string[] Fonts { get; set; } = { };
+    public string[] Styles { get; set; } = { };
+}
+
 internal class KeenAssetFontsScriptsStyles : IKeenAssetFontsScriptsStyles
 {
+    private KeenAssetsBind Bind { get; }
+
     private IConfiguration Configuration { get; }
 
     public KeenAssetFontsScriptsStyles(IConfiguration configuration)
     {
         Configuration = configuration;
+        KeenAssetsBind? bind = Configuration.Get<KeenAssetsBind>();
+        Bind = bind ?? new KeenAssetsBind();
     }
 
     public IEnumerable<string> Scripts
-        => Conversion(Configuration.GetSection(nameof(Scripts)).ToString());
+        => Bind.Scripts;
 
-    public IEnumerable<string> Styles 
-        => Conversion(Configuration.GetSection(nameof(Styles)).ToString());
+    public IEnumerable<string> Styles
+        => Bind.Styles;
 
-    public IEnumerable<string> Fonts 
-        => Conversion(Configuration.GetSection(nameof(Fonts)).ToString());
-
-    private IEnumerable<string> Conversion(string? entry)
-        => System.Text.Json.JsonSerializer.Deserialize<IEnumerable<string>>(
-            entry ??
-            System.Text.Json.JsonSerializer.Serialize(new string[] { })
-        ) ?? new string[] { };
+    public IEnumerable<string> Fonts
+        => Bind.Fonts;
 }

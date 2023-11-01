@@ -3,11 +3,11 @@
 public interface IKeenTheme<TAssets> where TAssets : IKeenAssets
 {
     
-    string Directory { get; }
+    string Path { get; }
     
     string Version { get; }
     
-    string ThemeName { get; }
+    string Theme { get; }
     
     TAssets Assets { get; }
 }

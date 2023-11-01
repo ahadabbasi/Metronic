@@ -22,19 +22,18 @@ internal class KeenBootstrapper : IKeenBootstrapper
         
         Environment = environment;
         
-        AssestsPath = string.Format(Theme.Directory, Theme.Version);
+        AssestsPath = Theme.Path;
 
-        if (!string.IsNullOrEmpty(Theme.Version))
-        {
-            AssestsPath = $"{AssestsPath}themes/{Theme.ThemeName}/";
-        }
-        
+        if (string.IsNullOrEmpty(Theme.Version) is false) 
+            AssestsPath = $"{AssestsPath}v{Theme.Version}/";
+
+        if (string.IsNullOrEmpty(Theme.Version) is false) 
+            AssestsPath = $"{AssestsPath}themes/{Theme.Theme}/";
+
         AssestsPath = $"{AssestsPath}dist/";
 
-        if (!Path.Exists(Path.Combine(Environment.WebRootPath, AssestsPath.Substring(1))))
-        {
+        if (Path.Exists(Path.Combine(Environment.WebRootPath, AssestsPath.Substring(1))) is false)
             throw new Exception(string.Empty);
-        }
     }
 
     public Task<string> GetAddressOf(string fileAddress)
@@ -57,7 +56,7 @@ internal class KeenBootstrapper : IKeenBootstrapper
         
         foreach (string script in Theme.Assets.Scripts)
         {
-            scripts.Add(await GetAddressOf(script));
+            scripts.Add(IsUri(script) ? script : await GetAddressOf(script));
         }
         
         return scripts;
@@ -69,7 +68,7 @@ internal class KeenBootstrapper : IKeenBootstrapper
         
         foreach (string style in Theme.Assets.Styles)
         {
-            styles.Add(await GetAddressOf(style));
+            styles.Add(IsUri(style) ? style : await GetAddressOf(style));
         }
         
         return styles;
@@ -81,9 +80,12 @@ internal class KeenBootstrapper : IKeenBootstrapper
         
         foreach (string font in Theme.Assets.Fonts)
         {
-            fonts.Add(await GetAddressOf(font));
+            fonts.Add(IsUri(font) ? font : await GetAddressOf(font));
         }
         
         return fonts;
     }
+
+    private bool IsUri(string entry)
+        => Uri.IsWellFormedUriString(entry, UriKind.Absolute);
 }

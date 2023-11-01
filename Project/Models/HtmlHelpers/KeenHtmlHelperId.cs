@@ -33,7 +33,8 @@ internal class KeenHtmlHelperId : IKeenHtmlHelperId
 
             for (int index = 0; index < 10; index++)
             {
-                builder.Append(char.Parse(random.Next(97, 122).ToString()));
+                int number = random.Next(97, 122);
+                builder.Append(((char)number));
             }
 
             result = builder.ToString();

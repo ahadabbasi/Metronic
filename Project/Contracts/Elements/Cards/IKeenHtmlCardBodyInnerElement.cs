@@ -5,5 +5,5 @@ namespace Ahada.Metronic.Contracts.Elements.Cards;
 
 public interface IKeenHtmlCardBodyInnerElement : IKeenHtmlElement<IKeenHtmlCardBodyInnerElement>, IHtmlContent
 {
-    IKeenHtmlCardBodyInnerElement RenderAsBody();
+    IKeenHtmlCardBodyInnerElement RenderAsBody(string partialName, object model);
 }

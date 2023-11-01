@@ -7,4 +7,12 @@ namespace Ahada.Metronic.Contracts.Elements.Cards;
 public interface IKeenHtmlCardElement : IKeenDisposableHtmlElement<IKeenHtmlCardElement, IKeenHtmlCardBodyElement>, IHtmlContent
 {
     IKeenHtmlCardElement Body(Func<IKeenHtmlCardBodyInnerElement, IKeenHtmlCardBodyInnerElement> body);
+    
+    IKeenHtmlCardElement WhatIsTitle(string title);
+
+    IKeenHtmlCardElement PutActionOnIt(string action);
+    
+    IKeenHtmlCardElement PutActionOnIt(IHtmlContent content);
+
+    IKeenHtmlCardElement IsCollapsible(bool collapsible = true);
 }

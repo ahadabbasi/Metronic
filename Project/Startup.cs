@@ -20,6 +20,8 @@ internal class Startup
         
         services.AddScoped<IKeenBootstrapper, KeenBootstrapper>();
 
+        services.AddTransient<IKeenPartialRenderer, KeenPartialRenderer>();
+
         /*
         
 

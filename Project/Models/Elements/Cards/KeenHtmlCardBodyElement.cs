@@ -1,4 +1,5 @@
-﻿using Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿using System.Threading.Tasks;
+using Ahada.Metronic.Contracts.Elements.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Cards;
 using Ahada.Metronic.Models.Elements.Abstracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,4 +15,13 @@ internal class KeenHtmlCardBodyElement : KeenHtmlBodyElement<IKeenHtmlCardBodyEl
     }
 
     public override TagBuilder Tag { get; }
+
+    public override Task Build()
+    {
+        MergeClasses("card-body");
+        
+        Tag.MergeAttributes(Attributes);
+        
+        return Task.CompletedTask;
+    }
 }

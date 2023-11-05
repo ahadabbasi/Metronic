@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿namespace Ahada.Metronic.Contracts.Elements.Abstracts;
 
-namespace Ahada.Metronic.Contracts.Elements.Abstracts;
-
-public interface IKeenHtmlElementBuilder : IKeenHtmlElement<IKeenHtmlElementBuilder>
+public interface IKeenHtmlElementBuilder<TResult>
+    where TResult : IKeenHtmlElementBuildResult
 {
-    Task<IDictionary<string, string>> GetAs();
-    
-    Task WriteTo(IHtmlHelper html);
+    TResult Build();
 }

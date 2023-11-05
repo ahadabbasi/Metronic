@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ahada.Metronic.Models.Elements.Abstracts;
 
-internal class KeenHtmlElementBuilder : KeenHtmlElement<IKeenHtmlElementBuilder, KeenHtmlElementBuilder>, IKeenHtmlElementBuilder
+internal class KeenHtmlElementAttributeBuilder : KeenHtmlElement<IKeenHtmlElementAttributeBuilder, KeenHtmlElementAttributeBuilder>, IKeenHtmlElementAttributeBuilder
 {
     public Task<IDictionary<string, string>> GetAs()
     {

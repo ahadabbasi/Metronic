@@ -1,10 +1,7 @@
-﻿namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 
-public interface IKeenHtmlElement<TSelf> where TSelf : IKeenHtmlElement<TSelf>
+namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+
+public interface IKeenHtmlElement : IKeenHtmlElement<IKeenHtmlElement>
 {
-    TSelf Id(string id);
-    
-    TSelf Classes(params string[] classes);
-    
-    IKeenHtmlElementAttribute<TSelf> Attribute { get; }
 }

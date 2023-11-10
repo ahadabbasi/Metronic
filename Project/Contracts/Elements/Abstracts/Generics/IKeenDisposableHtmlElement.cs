@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+namespace Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 
 public interface IKeenDisposableHtmlElement<TSelf, TDisposal> : IKeenHtmlElement<TSelf>
     where TSelf : IKeenHtmlElement<TSelf>

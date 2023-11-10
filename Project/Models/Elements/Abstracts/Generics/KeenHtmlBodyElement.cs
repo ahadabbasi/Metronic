@@ -2,9 +2,10 @@
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
+using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Ahada.Metronic.Models.Elements.Abstracts;
+namespace Ahada.Metronic.Models.Elements.Abstracts.Generics;
 
 internal abstract class KeenHtmlBodyElement<TSelf, TBase> : KeenHtmlElement<TSelf, TBase>, IKeenHtmlDisposableHtmlElement
     where TSelf : IKeenHtmlBodyElement<TSelf>

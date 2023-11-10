@@ -1,7 +1,7 @@
-﻿using Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Html;
 
-namespace Ahada.Metronic.Models.Elements.Abstracts;
+namespace Ahada.Metronic.Models.Elements.Abstracts.Generics;
 
 internal abstract class KeenHtmlInnerTextElement<TSelf, TBase> : KeenHtmlElement<TSelf, TBase>, IKeenHtmlInnerTextElement<TSelf> 
     where TSelf : IKeenHtmlElement<TSelf> 

@@ -1,4 +1,4 @@
-﻿using Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Ahada.Metronic.Models.Enums;
 using Ahada.Metronic.Models.Enums.Elements;
 using Microsoft.AspNetCore.Html;

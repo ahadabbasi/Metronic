@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 
-namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+namespace Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 
 public interface IKeenHtmlBodyInnerElement<TElement> : IKeenHtmlElement<TElement> 
     where TElement : IKeenHtmlElement<TElement>, IKeenHtmlBodyInnerElement<TElement>

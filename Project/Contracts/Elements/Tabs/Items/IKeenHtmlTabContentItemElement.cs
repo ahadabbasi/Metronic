@@ -2,5 +2,4 @@
 
 public interface IKeenHtmlTabContentItemElement :  IKeenHtmlTabItemElement<IKeenHtmlTabContentItemElement>
 {
-    IKeenHtmlTabContentItemElement PutTitleAs(string title);
 }

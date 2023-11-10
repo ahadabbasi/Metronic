@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Cards;
-using Ahada.Metronic.Models.Elements.Abstracts;
+using Ahada.Metronic.Models.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;

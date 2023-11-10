@@ -2,4 +2,5 @@
 
 public interface IKeenHtmlTabHeaderItemElement : IKeenHtmlTabItemElement<IKeenHtmlTabHeaderItemElement>
 {
+    IKeenHtmlTabHeaderItemElement PutTitleAs(string title);
 }

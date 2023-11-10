@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Ahada.Metronic.Contracts.Abstracts;
-using Ahada.Metronic.Contracts.Elements.Abstracts;
+using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Html;
 
-namespace Ahada.Metronic.Models.Elements.Abstracts;
+namespace Ahada.Metronic.Models.Elements.Abstracts.Generics;
 
 internal abstract class KeenHtmlBodyInnerElement<TSelf, TBase> : KeenHtmlElement<TSelf, TBase>, IKeenHtmlBodyInnerElement<TSelf>
     where TSelf : IKeenHtmlBodyInnerElement<TSelf>

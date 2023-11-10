@@ -1,4 +1,4 @@
-﻿namespace Ahada.Metronic.Contracts.Elements.Abstracts;
+﻿namespace Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 
 public interface IKeenHtmlInnerTextElement<TSelf> : IKeenHtmlElement<TSelf> where TSelf : IKeenHtmlElement<TSelf>
 {

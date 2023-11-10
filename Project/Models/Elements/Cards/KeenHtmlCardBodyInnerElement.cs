@@ -2,7 +2,7 @@
 using System.Text.Encodings.Web;
 using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Cards;
-using Ahada.Metronic.Models.Elements.Abstracts;
+using Ahada.Metronic.Models.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ahada.Metronic.Models.Elements.Cards;

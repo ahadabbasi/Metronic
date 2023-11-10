@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Encodings.Web;
 using Ahada.Metronic.Contracts.Elements.Buttons;
-using Ahada.Metronic.Models.Elements.Abstracts;
+using Ahada.Metronic.Models.Elements.Abstracts.Generics;
 using Ahada.Metronic.Models.Enums;
 using Ahada.Metronic.Models.Enums.Elements;
 using Microsoft.AspNetCore.Html;

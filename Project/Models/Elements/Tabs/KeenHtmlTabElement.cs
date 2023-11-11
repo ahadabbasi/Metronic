@@ -8,6 +8,7 @@ using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Ahada.Metronic.Contracts.Elements.Tabs;
+using Ahada.Metronic.Models.Elements.Abstracts;
 using Ahada.Metronic.Models.Elements.Abstracts.BuilderResults;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -15,18 +16,19 @@ namespace Ahada.Metronic.Models.Elements.Tabs;
 
 internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TSelfItem>
     where TSelfItem : IKeenHtmlTabItemElement<TSelfItem>
-    where TBaseItem : KeenHtmlTabItemElement<TSelfItem, TBaseItem>, IKeenHtmlElementBuilder<KeenHtmlTwoNullableElementBuildResult>, TSelfItem
+    where TBaseItem : KeenHtmlTabItemElement<TSelfItem, TBaseItem>,
+    IKeenHtmlElementBuilder<KeenHtmlTwoNullableElementBuildResult>, TSelfItem
 {
     public IList<TBaseItem> Items { get; }
 
     private IKeenPartialRenderer PartialRenderer { get; }
 
     private IKeenHtmlHelper HtmlHelper { get; }
-    
-    private IKeenHtmlTabElementAttributeBuilder NavigationAttribute { get; set; }
-    
-    private IKeenHtmlTabElementAttributeBuilder ContentAttribute { get; set; }
-    
+
+    private IKeenHtmlElementAttributeBuilder NavigationAttribute { get; set; }
+
+    private IKeenHtmlElementAttributeBuilder ContentAttribute { get; set; }
+
     private IDictionary<Type, ConstructorInfo?> Item { get; }
 
     private bool Activate { get; set; }
@@ -37,11 +39,11 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
     )
     {
         Item = new Dictionary<Type, ConstructorInfo?>();
-        
-        NavigationAttribute = new KeenHtmlTabElementAttributeBuilder();
 
-        ContentAttribute = new KeenHtmlTabElementAttributeBuilder();
-        
+        NavigationAttribute = new KeenHtmlElementAttributeBuilder();
+
+        ContentAttribute = new KeenHtmlElementAttributeBuilder();
+
         HtmlHelper = htmlHelper;
 
         PartialRenderer = partialRenderer;
@@ -53,19 +55,27 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
 
     public IKeenHtmlTabElement<TSelfItem> NavigationAttributes(Action<IKeenHtmlElement> attribute)
     {
-        NavigationAttribute = new KeenHtmlTabElementAttributeBuilder();
-        
-        attribute.Invoke((((IKeenHtmlElement<IKeenHtmlElement>)NavigationAttribute) ?? throw new Exception()) as IKeenHtmlElement ?? throw new Exception());
-        
+        NavigationAttribute = new KeenHtmlElementAttributeBuilder();
+
+        attribute.Invoke(
+            (
+                NavigationAttribute as IKeenHtmlElement<IKeenHtmlElement> ?? throw new Exception()
+            ) as IKeenHtmlElement ?? throw new Exception()
+        );
+
         return this;
     }
 
     public IKeenHtmlTabElement<TSelfItem> ContentAttributes(Action<IKeenHtmlElement> attribute)
     {
-        ContentAttribute = new KeenHtmlTabElementAttributeBuilder();
-        
-        attribute.Invoke((((IKeenHtmlElement<IKeenHtmlElement>)NavigationAttribute) ?? throw new Exception()) as IKeenHtmlElement ?? throw new Exception());
-        
+        ContentAttribute = new KeenHtmlElementAttributeBuilder();
+
+        attribute.Invoke(
+            (
+                NavigationAttribute as IKeenHtmlElement<IKeenHtmlElement> ?? throw new Exception()
+            ) as IKeenHtmlElement ?? throw new Exception()
+        );
+
         return this;
     }
 
@@ -86,7 +96,7 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
                 .FirstOrDefault(info => info.GetParameters()
                     .Any(parameter => parameter.ParameterType == typeof(Action<bool>))
                 );
-            
+
             Item.Add(typeof(TSelfItem), constructor);
         }
 
@@ -103,7 +113,7 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
                 ItemBeActivated
             }
         );
-        
+
         if (instance is null)
             throw new Exception();
 
@@ -125,19 +135,19 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
     public async void WriteTo(TextWriter writer, HtmlEncoder encoder)
     {
         TagBuilder navigation = new TagBuilder("ul");
-        
-        NavigationAttribute.MargeCssClasses("nav", "nav-tabs", "nav-line-tabs", "mb-5", "fs-6");
-        
+
+        NavigationAttribute.MargeCssClasses("nav", "nav-tabs", "nav-line-tabs", "fs-6");
+
         NavigationAttribute.Attribute.Add("role", "tablist");
-        
+
         navigation.MergeAttributes(await NavigationAttribute.GetAs(), true);
-        
+
         TagBuilder content = new TagBuilder("div");
 
         ContentAttribute.MargeCssClasses("tab-content");
-        
+
         content.MergeAttributes(await ContentAttribute.GetAs(), true);
-        
+
         foreach (TBaseItem item in Items)
         {
             (TagBuilder? link, TagBuilder? body) = item.Build();
@@ -148,7 +158,7 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
             if (body is not null)
                 content.InnerHtml.AppendHtml(body);
         }
-        
+
         if (navigation.HasInnerHtml)
             navigation.WriteTo(writer, encoder);
 

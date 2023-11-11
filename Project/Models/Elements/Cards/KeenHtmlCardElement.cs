@@ -5,7 +5,9 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Ahada.Metronic.Contracts.Abstracts;
 using Ahada.Metronic.Contracts.Elements.Abstracts;
+using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
 using Ahada.Metronic.Contracts.Elements.Cards;
+using Ahada.Metronic.Models.Elements.Abstracts;
 using Ahada.Metronic.Models.Elements.Abstracts.Generics;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,10 +33,18 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
 
     private string Collapsible { get; set; }
 
+    private IKeenHtmlElementAttributeBuilder HeaderAttribute { get; set; }
+
+    private IKeenHtmlElementAttributeBuilder BodyAttribute { get; set; }
+
     protected IKeenHtmlCardBodyInnerElement? InnerElement { get; set; }
 
     public KeenHtmlCardElement(IHtmlHelper html) : base(html)
     {
+        HeaderAttribute = new KeenHtmlElementAttributeBuilder();
+
+        BodyAttribute = new KeenHtmlElementAttributeBuilder();
+
         KeenHtml = Html.ViewContext.HttpContext.RequestServices.GetService<IKeenHtmlHelper>()
                    ?? throw new Exception();
 
@@ -71,8 +81,34 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
     {
         InnerElement = body(
             new KeenHtmlCardBodyInnerElement(
-            Html.ViewContext.HttpContext.RequestServices.GetService<IKeenPartialRenderer>() ?? throw new Exception()
+                Html.ViewContext.HttpContext.RequestServices.GetService<IKeenPartialRenderer>() ?? throw new Exception()
             )
+        );
+
+        return this;
+    }
+
+    public IKeenHtmlCardElement HeaderAttributes(Action<IKeenHtmlElement> attribute)
+    {
+        HeaderAttribute = new KeenHtmlElementAttributeBuilder();
+
+        attribute.Invoke(
+            (
+                HeaderAttribute as IKeenHtmlElement<IKeenHtmlElement> ?? throw new Exception()
+            ) as IKeenHtmlElement ?? throw new Exception()
+        );
+
+        return this;
+    }
+
+    public IKeenHtmlCardElement BodyAttributes(Action<IKeenHtmlElement> attribute)
+    {
+        BodyAttribute = new KeenHtmlElementAttributeBuilder();
+
+        attribute.Invoke(
+            (
+                BodyAttribute as IKeenHtmlElement<IKeenHtmlElement> ?? throw new Exception()
+            ) as IKeenHtmlElement ?? throw new Exception()
         );
 
         return this;
@@ -132,7 +168,7 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
         return this;
     }
 
-    public override Task Build()
+    public override async Task Build()
     {
         MergeClasses("card");
 
@@ -140,7 +176,7 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
 
         if (!string.IsNullOrEmpty(Title))
         {
-            CardHeader = CreateCardHeader();
+            CardHeader = await CreateCardHeader();
 
             TagBuilder headerTitle = new TagBuilder("h3")
             {
@@ -157,7 +193,7 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
 
         if (Action is not null)
         {
-            CardHeader ??= CreateCardHeader();
+            CardHeader ??= await CreateCardHeader();
 
             TagBuilder headerToolbar = new TagBuilder("div")
             {
@@ -183,17 +219,19 @@ internal class KeenHtmlCardElement : KeenDisposableHtmlElement<IKeenHtmlCardElem
 
             _ = CardHeader.InnerHtml.AppendHtml(headerToolbar);
         }
-
-        return Task.CompletedTask;
     }
 
-    private TagBuilder CreateCardHeader() => new TagBuilder("div")
+    private async Task<TagBuilder> CreateCardHeader()
     {
-        Attributes =
-        {
-            { "class", "card-header" }
-        }
-    };
+        TagBuilder result = new TagBuilder("div");
+
+        result.MergeAttributes(
+            await HeaderAttribute.MargeCssClasses("card-header").GetAs(),
+            true
+        );
+
+        return result;
+    }
 
     public override async Task Initial()
     {

@@ -3,6 +3,7 @@
 namespace Ahada.Metronic.Contracts.Elements.Abstracts;
 
 public interface IKeenHtmlElementAttributeBuilder : 
-    IKeenHtmlElementAttributeBuilder<IKeenHtmlElementAttributeBuilder>
+    IKeenHtmlElementAttributeBuilder<IKeenHtmlElement>
 {
+    IKeenHtmlElementAttributeBuilder MargeCssClasses(params string[] classes);
 }

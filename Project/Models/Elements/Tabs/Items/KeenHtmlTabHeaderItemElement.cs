@@ -26,18 +26,18 @@ internal class KeenHtmlTabHeaderItemElement :
     {
         TagBuilder title = new TagBuilder("li");
 
-        MergeClasses("nav-item", Activate ? "active" : string.Empty);
+        MergeClasses("nav-item");
 
         Attribute.Add("role", "presentation");
 
         title.MergeAttributes(Attributes);
 
-        bool referenceIsUri = Uri.IsWellFormedUriString(Reference, UriKind.RelativeOrAbsolute);
+        bool referenceIsUri = Uri.IsWellFormedUriString(Reference, UriKind.Absolute);
 
         AttributeDictionary anchorAttributes = new AttributeDictionary()
         {
-            { "class", "nav-link" },
-            { "data-bs-toggle", "tab" },
+            { "class", $"nav-link {(Activate ? "active" : "")}" },
+            { "aria-selected", Activate.ToString().ToLower() },
             {
                 "href",
                 referenceIsUri
@@ -46,11 +46,8 @@ internal class KeenHtmlTabHeaderItemElement :
             }
         };
 
-        if (referenceIsUri)
-        {
+        if (referenceIsUri is false) 
             anchorAttributes.Add("data-bs-toggle", "tab");
-            anchorAttributes.Add("aria-selected", Activate.ToString().ToLower());
-        }
 
         TagBuilder anchor = new TagBuilder("a");
         

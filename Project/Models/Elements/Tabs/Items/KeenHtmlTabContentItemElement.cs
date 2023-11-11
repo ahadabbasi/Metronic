@@ -1,7 +1,7 @@
 ﻿using System;
 using Ahada.Metronic.Contracts.Abstracts;
-using Ahada.Metronic.Contracts.Elements.Abstracts.BuilderResults;
 using Ahada.Metronic.Contracts.Elements.Tabs.Items;
+using Ahada.Metronic.Models.Elements.Abstracts.BuilderResults;
 
 namespace Ahada.Metronic.Models.Elements.Tabs.Items;
 

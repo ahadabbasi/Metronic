@@ -1,5 +1,5 @@
-﻿using Ahada.Metronic.Contracts.Elements.Abstracts.BuilderResults;
-using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
+﻿using Ahada.Metronic.Contracts.Elements.Abstracts.Generics;
+using Ahada.Metronic.Models.Elements.Abstracts.BuilderResults;
 
 namespace Ahada.Metronic.Contracts.Elements.Tabs;
 

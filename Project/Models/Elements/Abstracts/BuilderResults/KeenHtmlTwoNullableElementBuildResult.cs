@@ -1,7 +1,8 @@
 ﻿using System;
+using Ahada.Metronic.Contracts.Elements.Abstracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Ahada.Metronic.Contracts.Elements.Abstracts.BuilderResults;
+namespace Ahada.Metronic.Models.Elements.Abstracts.BuilderResults;
 
 public class KeenHtmlTwoNullableElementBuildResult : Tuple<TagBuilder?, TagBuilder?>, IKeenHtmlElementBuildResult
 {

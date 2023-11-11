@@ -14,11 +14,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Ahada.Metronic.Models.Elements.Tabs;
 
 internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TSelfItem>
-    where TSelfItem : IKeenHtmlTabItemElement<TSelfItem>,
-    IKeenHtmlElementBuilder<KeenHtmlTwoNullableElementBuildResult>
-    where TBaseItem : KeenHtmlTabItemElement<TSelfItem, TBaseItem>, TSelfItem
+    where TSelfItem : IKeenHtmlTabItemElement<TSelfItem>
+    where TBaseItem : KeenHtmlTabItemElement<TSelfItem, TBaseItem>, IKeenHtmlElementBuilder<KeenHtmlTwoNullableElementBuildResult>, TSelfItem
 {
-    public IList<TSelfItem> Items { get; }
+    public IList<TBaseItem> Items { get; }
 
     private IKeenPartialRenderer PartialRenderer { get; }
 
@@ -33,8 +32,8 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
     private bool Activate { get; set; }
 
     public KeenHtmlTabElement(
-        IKeenHtmlHelper htmlHelper,
-        IKeenPartialRenderer partialRenderer
+        IKeenPartialRenderer partialRenderer,
+        IKeenHtmlHelper htmlHelper
     )
     {
         Item = new Dictionary<Type, ConstructorInfo?>();
@@ -47,7 +46,7 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
 
         PartialRenderer = partialRenderer;
 
-        Items = new List<TSelfItem>();
+        Items = new List<TBaseItem>();
 
         Activate = false;
     }
@@ -96,18 +95,21 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
         if (constructor is null)
             throw new Exception();
 
-        Items.Add(
-            item(
-                (TSelfItem)constructor.Invoke(
-                    new object?[]
-                    {
-                        PartialRenderer,
-                        HtmlHelper,
-                        ItemBeActivated
-                    }
-                )
-            )
+        TBaseItem? instance = (TBaseItem?)constructor.Invoke(
+            new object?[]
+            {
+                PartialRenderer,
+                HtmlHelper,
+                ItemBeActivated
+            }
         );
+        
+        if (instance is null)
+            throw new Exception();
+
+        instance = (TBaseItem)item((TSelfItem)instance);
+
+        Items.Add(instance);
 
         return this;
     }
@@ -136,7 +138,7 @@ internal class KeenHtmlTabElement<TSelfItem, TBaseItem> : IKeenHtmlTabElement<TS
         
         content.MergeAttributes(await ContentAttribute.GetAs(), true);
         
-        foreach (TSelfItem item in Items)
+        foreach (TBaseItem item in Items)
         {
             (TagBuilder? link, TagBuilder? body) = item.Build();
 

@@ -25,7 +25,17 @@ internal class KeenHtmlAlertBodyElement : KeenHtmlBodyElement<IKeenHtmlAlertBody
     }
 
     public override TagBuilder Tag { get; }
-    
+
+    public override Task Initial()
+    {
+        return Task.CompletedTask;
+    }
+
+    public override Task Terminate()
+    {
+        return Task.CompletedTask;
+    }
+
     public override Task Build()
     {
         return Task.CompletedTask;

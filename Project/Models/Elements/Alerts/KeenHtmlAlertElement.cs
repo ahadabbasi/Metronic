@@ -77,7 +77,7 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
         }
 
         MergeClasses(classes.ToArray());
-        
+
         if (BodyInner is null)
         {
             BodyInner = CreateInstance();
@@ -99,17 +99,28 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
 
         _ = Tag.InnerHtml.AppendHtml(BodyInner);
 
-        if (DisposableButton is not null)
-        {
-            _ = Tag.InnerHtml.AppendHtml(DisposableButton);
-        }
+        Tag.MergeAttributes(Attributes, true);
 
         return Task.CompletedTask;
     }
 
     public async void WriteTo(TextWriter writer, HtmlEncoder encoder)
     {
+        bool disposableButtonAppended = false;
+
+        if (BodyInner is not null && DisposableButton is not null)
+        {
+            _ = Tag.InnerHtml.AppendHtml(DisposableButton);
+            disposableButtonAppended = true;
+        }
+
         await Build();
+
+        if (DisposableButton is not null && disposableButtonAppended is false)
+        {
+            DisposableButton.AddCssClass("position-sm-relative m-sm-0 ms-sm-auto");
+            _ = Tag.InnerHtml.AppendHtml(DisposableButton);
+        }
 
         Tag.WriteTo(writer, encoder);
     }
@@ -124,6 +135,7 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
     public IKeenHtmlAlertElement BorderIs(KeenBorder border)
     {
         Border = border;
+
         return this;
     }
 
@@ -150,7 +162,7 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
                 {
                     {
                         ClassAttributeName,
-                        "position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                        "position-absolute m-2 top-0 end-0 btn btn-icon"
                     },
                     {
                         "data-bs-dismiss",
@@ -168,7 +180,7 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
                 {
                     {
                         ClassAttributeName,
-                        "ki-duotone ki-cross fs-1 text-light"
+                        "ki-duotone ki-cross fs-1"
                     }
                 }
             };
@@ -204,6 +216,19 @@ internal class KeenHtmlAlertElement : KeenDisposableHtmlElement<IKeenHtmlAlertEl
         BodyInner = element;
 
         return this;
+    }
+
+    public override async Task Initial()
+    {
+        await Build();
+        
+        await using StringWriter writer = new StringWriter();
+        Tag.RenderStartTag().WriteTo(writer, HtmlEncoder.Default);
+        if (DisposableButton is not null) 
+            DisposableButton.WriteTo(writer, HtmlEncoder.Default);
+        await Html.ViewContext.Writer.WriteAsync(writer.ToString());
+
+        await Disposal.Initial();
     }
 
     private KeenHtmlAlertBodyInnerElement CreateInstance()

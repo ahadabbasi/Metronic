@@ -24,7 +24,7 @@ internal class KeenHtmlAlertBodyInnerElement: KeenHtmlBodyInnerElement<IKeenHtml
             {
                 {
                     ClassAttributeName, 
-                    "d-flex flex-column text-light pe-0 pe-sm-10"
+                    "d-flex flex-column pe-0 pe-sm-10"
                 }
             }
         };
@@ -62,13 +62,13 @@ internal class KeenHtmlAlertBodyInnerElement: KeenHtmlBodyInnerElement<IKeenHtml
 
                 _ = Tag.InnerHtml.AppendHtml(content);
             }
+            
+            Tag.WriteTo(writer, encoder);
         }
         else
         {
-            _ = Tag.InnerHtml.AppendHtml(Body);
+            Body.WriteTo(writer, encoder);
         }
-        
-        Tag.WriteTo(writer, encoder);
     }
 
     public IKeenHtmlAlertBodyInnerElementBuilder PutTitleOnIt(string title)
